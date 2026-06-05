@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Síndrome de Cushing · Cuando el cortisol reescribe la piel · F&amp;G</title>
+<meta name="description" content="¿Lo ves en la piel? El diagnóstico empieza antes del laboratorio. I Diplomado · Dermatología, Endocrinología y Nutrición Clínica. Inicio Jul 2026.">
+<meta property="og:title" content="Síndrome de Cushing · F&amp;G Educational Society">
+<meta property="og:description" content="Cuando el cortisol reescribe la piel.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://necroker17.github.io/ENDERNUT/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ─── TOKENS ─── */
+:root{
+  --navy:       #0A1628;
+  --navy2:      #112036;
+  --navy3:      #182C47;
+  --blue:       #1E4D8C;
+  --blue-light: #4A8BD4;
+  --blue-soft:  #7FB3E8;
+  --gold:       #E6B84D;
+  --gold-light: #F2D47E;
+  --gold-deep:  #C79730;
+  --paper:      #EAE6DD;
+  --text-soft:  #B8C5D6;
+  --text-white: #EEF3FA;
+}
+
+/* ─── PAGE ─── */
+*, *::before, *::after{ box-sizing: border-box; margin:0; padding:0;}
+html, body{
+  height:100%; width:100%;
+  display:flex; align-items:center; justify-content:center;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 10%, rgba(30,77,140,.35), transparent 65%),
+    radial-gradient(ellipse 55% 45% at 80% 90%, rgba(199,151,48,.25), transparent 65%),
+    #06101F;
+  font-family:'DM Sans', sans-serif;
+  min-height: 100dvh;
+}
+
+/* ─── FRAME ─── */
+.frame{
+  position:relative;
+  aspect-ratio: 941 / 1672;
+  height: min(98vh, 1672px);
+  width: auto;
+  max-width: 100vw;
+  border-radius: 22px;
+  overflow:hidden;
+  background: var(--paper);
+  box-shadow:
+    0 40px 100px -30px rgba(0,0,0,.7),
+    0 0 0 1px rgba(127,179,232,.10) inset;
+  isolation:isolate;
+}
+
+/* ─── POSTER IMAGE ─── */
+.poster{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  object-fit: cover;
+  z-index: 1;
+  animation: posterIn 1.4s cubic-bezier(.2,.7,.2,1) both;
+  transform-origin: center;
+}
+
+/* ─── VIGNETTE ─── */
+.vignette{
+  position:absolute; inset:0;
+  pointer-events:none; z-index: 2;
+  background: radial-gradient(ellipse 80% 70% at 50% 45%, transparent 50%, rgba(0,0,0,.18) 100%);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  animation: vigIn 1.5s ease-out 1s forwards;
+}
+
+/* ─── SCAN BEAM (one-shot reveal) ─── */
+.scan-once{
+  position:absolute; left:0; right:0;
+  top: -25%; height: 22%;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(74,139,212,.25) 35%,
+    rgba(230,184,77,.45) 50%,
+    rgba(74,139,212,.25) 65%,
+    transparent 100%);
+  filter: blur(2px);
+  z-index: 5;
+  pointer-events:none;
+  mix-blend-mode: screen;
+  animation: scanOnce 2.6s ease-in-out .15s 1 forwards;
+}
+.scan-once::after{
+  content:""; position:absolute; left:0; right:0; top:50%;
+  height:1px;
+  background: var(--gold-light);
+  box-shadow: 0 0 14px var(--gold);
+}
+
+/* ─── SVG LABEL LINES ─── */
+.lines{
+  position:absolute; inset:0;
+  pointer-events:none;
+  z-index: 5;
+}
+.lines path{
+  fill:none;
+  stroke: var(--gold-light);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 4px rgba(230,184,77,.6));
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  animation: drawLine 1.2s ease-out 1s forwards, lineGlow 4s ease-in-out 2.5s infinite;
+}
+.lines path.right{
+  stroke: var(--blue-soft);
+  filter: drop-shadow(0 0 4px rgba(127,179,232,.6));
+  animation: drawLine 1.2s ease-out 1.2s forwards, lineGlowBlue 4s ease-in-out 2.8s infinite;
+}
+
+/* ─── ANATOMY HOTSPOTS ─── */
+.spot{
+  position:absolute;
+  width: 5.6%;
+  aspect-ratio:1;
+  border-radius:50%;
+  pointer-events:none;
+  z-index: 6;
+  opacity: 0;
+  animation: spotAppear .6s ease-out 1.4s forwards;
+}
+.spot::before, .spot::after{
+  content:""; position:absolute; inset:0;
+  border-radius:50%;
+  border: 2px solid var(--gold);
+  animation: ringOut 2.8s ease-out infinite;
+  opacity:0;
+}
+.spot::after{ animation-delay:1.4s;}
+.spot .core{
+  position:absolute; inset:36%;
+  border-radius:50%;
+  background: var(--gold);
+  box-shadow: 0 0 14px var(--gold), 0 0 28px rgba(230,184,77,.6);
+  animation: corePulse 2s ease-in-out infinite;
+}
+/* Blue variant (nose) */
+.spot.b::before, .spot.b::after{ border-color: var(--blue-soft);}
+.spot.b .core{
+  background: var(--blue-light);
+  box-shadow: 0 0 14px var(--blue-light), 0 0 28px rgba(74,139,212,.6);
+}
+
+/* Calibrated to new 941×1672 poster */
+.spot.eye  { top: 17%;   left: 33%;  }
+.spot.nose { top: 22.5%; left: 49.5%;}
+
+/* ─── TITLE SHINE ─── */
+.title-shine{
+  position:absolute;
+  top: 37%; left: 12%; width: 74%; height: 15%;
+  z-index: 4;
+  pointer-events:none;
+  overflow:hidden;
+  border-radius: 6px;
+  opacity:0;
+  animation: titleAppear .6s ease-out 2.2s forwards;
+}
+.title-shine::before{
+  content:""; position:absolute;
+  top:0; bottom:0; left:-50%;
+  width: 35%;
+  background: linear-gradient(105deg,
+    transparent 0%,
+    rgba(255,255,255,.55) 50%,
+    transparent 100%);
+  filter: blur(2px);
+  mix-blend-mode: overlay;
+  animation: titleShine 4s ease-in-out 3s infinite;
+}
+
+/* ─── SUBTITLE UNDERLINE ─── */
+.sub-underline{
+  position:absolute;
+  top: 54.5%; left: 22%; width: 56%; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--gold-light), var(--gold), transparent);
+  transform-origin: center;
+  transform: scaleX(0);
+  z-index: 4;
+  filter: drop-shadow(0 0 6px var(--gold));
+  animation: subDraw 1.4s cubic-bezier(.2,.7,.2,1) 2.6s forwards, subPulse 4s ease-in-out 4.2s infinite;
+}
+
+/* ─── REFERENCE PHOTO BORDERS ─── */
+.ref{
+  position:absolute;
+  border-radius: 4px;
+  pointer-events:none;
+  z-index: 5;
+  border: 2px solid transparent;
+  opacity: 0;
+  animation: refIn .6s ease-out 2.6s forwards, refGlow 3.4s ease-in-out 3.4s infinite;
+}
+.ref.r2{ animation-delay: 2.8s, 5.1s;}
+
+/* Calibrated to clinical photo positions in new poster */
+.ref.r1{ top: 57.5%; left: 4.5%;  width: 39%;  height: 12.5%;}
+.ref.r2{ top: 57.5%; left: 52%;   width: 39%;  height: 12.5%;}
+
+/* ─── CORNER BRACKETS ─── */
+.bracket{
+  position:absolute;
+  width: 16px; height:16px;
+  border: 2px solid var(--gold);
+  pointer-events:none;
+  z-index: 6;
+  filter: drop-shadow(0 0 6px var(--gold));
+  opacity: 0;
+  animation: bracketIn .5s ease-out 2.8s forwards;
+}
+.bracket.tl{ border-right:none; border-bottom:none;}
+.bracket.tr{ border-left:none;  border-bottom:none;}
+.bracket.bl{ border-right:none; border-top:none;}
+.bracket.br{ border-left:none;  border-top:none;}
+
+.bk-r1-tl{ top: 57.5%; left: 4.5%;}
+.bk-r1-tr{ top: 57.5%; left: calc(4.5% + 39% - 16px);}
+.bk-r1-bl{ top: calc(57.5% + 12.5% - 16px); left: 4.5%;}
+.bk-r1-br{ top: calc(57.5% + 12.5% - 16px); left: calc(4.5% + 39% - 16px);}
+
+.bk-r2-tl{ top: 57.5%; left: 52%; animation-delay:3s;}
+.bk-r2-tr{ top: 57.5%; left: calc(52% + 39% - 16px); animation-delay:3s;}
+.bk-r2-bl{ top: calc(57.5% + 12.5% - 16px); left: 52%; animation-delay:3s;}
+.bk-r2-br{ top: calc(57.5% + 12.5% - 16px); left: calc(52% + 39% - 16px); animation-delay:3s;}
+
+/* ─── MOLECULAR NETWORK PULSES ─── */
+.mol-pulse{
+  position:absolute;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--blue-light);
+  box-shadow: 0 0 14px var(--blue-light), 0 0 30px rgba(74,139,212,.6);
+  pointer-events:none;
+  z-index: 5;
+  opacity: 0;
+}
+.mp1{ top: 27%; left: 75%; animation: molTravel1 6s ease-in-out 3s infinite;}
+.mp2{ top: 35%; left: 88%; animation: molTravel2 7s ease-in-out 4s infinite;}
+.mp3{ top: 50%; left: 80%; animation: molTravel3 5.5s ease-in-out 3.5s infinite;}
+.mp4{ top: 70%; left: 78%; animation: molTravel4 6.5s ease-in-out 4.5s infinite;}
+.mp5{ top: 78%; left: 65%; animation: molTravel5 8s ease-in-out 2.8s infinite;}
+
+/* ─── BOTTOM GOLD LINE ─── */
+.bottom-line{
+  position:absolute;
+  top: 83%; left: 28%; width: 44%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-light), transparent);
+  transform-origin: center;
+  transform: scaleX(0);
+  z-index: 5;
+  filter: drop-shadow(0 0 6px var(--gold));
+  animation: bottomDraw 1.6s ease-out 3s forwards, bottomLoop 5s ease-in-out 4.6s infinite;
+}
+
+/* ─── FULL-FRAME CLICK COVER ─── */
+.click-cover{
+  position:absolute; inset:0;
+  z-index: 8;
+  display:block;
+}
+
+/* tap-hint removed */
+
+/* ══════════════════════════════════════════
+   CTA BUTTON — gold pill provided by client
+   ══════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+.cta-wrap{
+  position: absolute;
+  left: 50%;
+  top: 80%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  opacity: 0;
+  animation: ctaWrapIn .9s cubic-bezier(.2,.7,.2,1) 3.2s forwards;
+}
+@keyframes ctaWrapIn{
+  from{ opacity:0; transform: translate(-50%,-50%) translateY(8px) scale(.92);}
+  to{   opacity:1; transform: translate(-50%,-50%) translateY(0)   scale(1);}
+}
+
+/* Halo detrás del botón */
+.cta-wrap::before{
+  content:"";
+  position:absolute;
+  left:50%; top:50%;
+  width:115%; height:200%;
+  border-radius:999px;
+  background: radial-gradient(ellipse 50% 40% at 50% 50%, rgba(230,184,77,.5), transparent 70%);
+  transform: translate(-50%,-50%);
+  filter: blur(10px);
+  pointer-events:none;
+  animation: haloPulse 3.4s ease-in-out 3.8s infinite;
+  z-index:-1;
+}
+@keyframes haloPulse{
+  0%,100%{ opacity:.5; transform: translate(-50%,-50%) scale(.9);}
+  50%{     opacity:1;  transform: translate(-50%,-50%) scale(1.1);}
+}
+
+/* Botón principal */
+.cta-btn{
+  position:relative;
+  display:inline-flex; align-items:center;
+  gap:10px;
+  padding: 11px 18px 11px 22px;
+  font-family:'DM Sans', sans-serif;
+  font-weight:700;
+  font-size:11.5px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:#2A1B05;
+  text-decoration:none;
+  border:none;
+  border-radius:999px;
+  cursor:pointer;
+  white-space:nowrap;
+  isolation:isolate;
+  overflow:hidden;
+  transition: transform .18s cubic-bezier(.2,.7,.2,1), filter .25s ease;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.35) 0%, rgba(255,255,255,0) 35%, rgba(0,0,0,.06) 100%),
+    linear-gradient(135deg, #FFE9A8 0%, #F2CC68 18%, #E6B84D 45%, #D0A23E 70%, #B58A2F 100%);
+  box-shadow:
+    inset 0 1.2px 0 rgba(255,255,255,.6),
+    inset 0 -1.2px 0 rgba(120,85,15,.4),
+    inset 0 0 0 1px rgba(255,255,255,.18),
+    0 3px 6px rgba(60,40,5,.18),
+    0 10px 22px -6px rgba(230,184,77,.55),
+    0 0 0 1.2px rgba(165,120,25,.35),
+    0 0 0 4px rgba(230,184,77,.12);
+  animation: ctaFloat 3.6s ease-in-out 4s infinite;
+}
+.cta-btn:active{
+  transform: translateY(2px) scale(.98);
+  filter: brightness(.96);
+}
+@keyframes ctaFloat{
+  0%,100%{ transform: translateY(0);}
+  50%{     transform: translateY(-4px);}
+}
+
+/* Destello / shimmer */
+.cta-btn::before{
+  content:""; position:absolute;
+  top:0; bottom:0; left:-40%;
+  width:35%;
+  background: linear-gradient(105deg, transparent 0%, rgba(255,255,255,0) 20%, rgba(255,255,255,.55) 50%, rgba(255,255,255,0) 80%, transparent 100%);
+  filter: blur(3px);
+  mix-blend-mode: overlay;
+  animation: btnShimmer 3.4s ease-in-out 4.2s infinite;
+  z-index:1;
+}
+@keyframes btnShimmer{
+  0%{   transform: translateX(0);}
+  50%{  transform: translateX(420%);}
+  100%{ transform: translateX(420%);}
+}
+
+/* Línea de brillo superior */
+.cta-btn::after{
+  content:""; position:absolute;
+  top:1px; left:18%; right:18%; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.85), transparent);
+  filter: blur(.4px);
+  pointer-events:none;
+  z-index:2;
+}
+
+/* Texto */
+.cta-btn .label{
+  position:relative; z-index:3;
+  text-shadow: 0 1px 0 rgba(255,255,255,.35);
+}
+
+/* Chip de flecha */
+.cta-btn .chip{
+  position:relative; z-index:3;
+  display:inline-flex; align-items:center; justify-content:center;
+  width:24px; height:24px;
+  border-radius:50%;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.25), rgba(0,0,0,.08)),
+    linear-gradient(135deg, #2A1B05 0%, #4A2E08 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.25),
+    inset 0 -1px 0 rgba(0,0,0,.35),
+    0 2px 4px rgba(0,0,0,.18);
+  color:#F5DC8C;
+  transition: transform .25s cubic-bezier(.2,.7,.2,1);
+}
+.cta-btn:active .chip{
+  transform: translateX(2px) rotate(-8deg);
+}
+.cta-btn .chip svg{
+  width:11px; height:11px; display:block;
+  animation: arrowNudge 1.8s ease-in-out 5s infinite;
+}
+@keyframes arrowNudge{
+  0%,100%{ transform: translateX(0);}
+  50%{     transform: translateX(3px);}
+}
+
+/* Pantallas pequeñas */
+@media (max-height:700px){
+  .cta-btn{ padding:9px 15px 9px 19px; font-size:10.5px; gap:8px;}
+  .cta-btn .chip{ width:22px; height:22px;}
+}
+
+/* ══════════════════════════════
+   KEYFRAMES — shared animations
+   ══════════════════════════════ */
+@keyframes posterIn{
+  0%{   opacity:0; filter:blur(6px) brightness(.85); transform:scale(1.04);}
+  60%{  opacity:1; filter:blur(0)   brightness(1);}
+  100%{ opacity:1; filter:blur(0)   brightness(1);   transform:scale(1);}
+}
+@keyframes scanOnce{
+  0%{   transform:translateY(0);    opacity:0;}
+  10%{  opacity:1;}
+  90%{  opacity:1;}
+  100%{ transform:translateY(560%); opacity:0;}
+}
+@keyframes spotAppear{ to{ opacity:1;} }
+@keyframes ringOut{
+  0%{   transform:scale(.5);  opacity:.85;}
+  80%{  opacity:.05;}
+  100%{ transform:scale(2.6); opacity:0;}
+}
+@keyframes corePulse{
+  0%,100%{ transform:scale(1);   opacity:.95;}
+  50%{     transform:scale(1.5); opacity:.7;}
+}
+@keyframes drawLine{ to{ stroke-dashoffset:0;} }
+@keyframes lineGlow{
+  0%,100%{ filter:drop-shadow(0 0 2px rgba(230,184,77,.3));}
+  50%{     filter:drop-shadow(0 0 10px rgba(230,184,77,.9));}
+}
+@keyframes lineGlowBlue{
+  0%,100%{ filter:drop-shadow(0 0 2px rgba(127,179,232,.3));}
+  50%{     filter:drop-shadow(0 0 10px rgba(127,179,232,.9));}
+}
+@keyframes titleAppear{ to{ opacity:1;} }
+@keyframes titleShine{
+  0%{   transform:translateX(0);}
+  60%{  transform:translateX(380%);}
+  100%{ transform:translateX(380%);}
+}
+@keyframes subDraw{ to{ transform:scaleX(1);} }
+@keyframes subPulse{
+  0%,100%{ opacity:.7;}
+  50%{     opacity:1;}
+}
+@keyframes refIn{ to{ opacity:1;} }
+@keyframes refGlow{
+  0%,100%{ border-color:rgba(230,184,77,0);   box-shadow:0 0 0 0 rgba(230,184,77,0);}
+  50%{     border-color:rgba(230,184,77,.75);  box-shadow:0 0 24px rgba(230,184,77,.45), 0 0 0 2px rgba(230,184,77,.15);}
+}
+@keyframes bracketIn{ to{ opacity:.9;} }
+@keyframes molTravel1{
+  0%{   opacity:0; transform:translate(0,0)      scale(.5);}
+  10%{  opacity:1; transform:scale(1);}
+  50%{  transform:translate(50px,30px)  scale(1);}
+  90%{  opacity:1;}
+  100%{ opacity:0; transform:translate(70px,60px) scale(.5);}
+}
+@keyframes molTravel2{
+  0%{   opacity:0; transform:translate(0,0)        scale(.5);}
+  10%{  opacity:1; transform:scale(1);}
+  50%{  transform:translate(-40px,60px)  scale(1);}
+  90%{  opacity:1;}
+  100%{ opacity:0; transform:translate(-60px,100px) scale(.5);}
+}
+@keyframes molTravel3{
+  0%{   opacity:0; transform:translate(0,0)        scale(.5);}
+  10%{  opacity:1; transform:scale(1);}
+  50%{  transform:translate(30px,-40px)  scale(1);}
+  90%{  opacity:1;}
+  100%{ opacity:0; transform:translate(50px,-70px)  scale(.5);}
+}
+@keyframes molTravel4{
+  0%{   opacity:0; transform:translate(0,0)        scale(.5);}
+  10%{  opacity:1; transform:scale(1);}
+  50%{  transform:translate(-30px,40px)  scale(1);}
+  90%{  opacity:1;}
+  100%{ opacity:0; transform:translate(-50px,70px)  scale(.5);}
+}
+@keyframes molTravel5{
+  0%{   opacity:0; transform:translate(0,0)        scale(.5);}
+  10%{  opacity:1; transform:scale(1);}
+  50%{  transform:translate(40px,-30px)  scale(1);}
+  90%{  opacity:1;}
+  100%{ opacity:0; transform:translate(70px,-50px)  scale(.5);}
+}
+@keyframes bottomDraw{ to{ transform:scaleX(1);} }
+@keyframes bottomLoop{
+  0%,100%{ opacity:.5;}
+  50%{     opacity:1;}
+}
+@keyframes hintIn{ to{ opacity:1;} }
+@keyframes hintBlink{
+  0%,100%{ opacity:.6;}
+  50%{     opacity:1;}
+}
+@keyframes vigIn{ to{ opacity:1;} }
+
+/* ─── REDUCED MOTION ─── */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration: .01s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01s !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="frame">
+
+  <!-- 1 · Poster base image -->
+  <img class="poster"
+       src="ChatGPT Image 4 jun 2026, 04_11_22 p.m..png"
+       alt="Síndrome de Cushing - I Diplomado F&amp;G">
+
+  <!-- 2 · Depth vignette -->
+  <div class="vignette"></div>
+
+  <!-- 3 · One-shot scan beam reveal -->
+  <div class="scan-once"></div>
+
+  <!-- 4 · SVG anatomy label lines
+       viewBox matches poster aspect: 100 × 177.7 (= 100 × 1672/941)
+       Eye   hotspot centre  → top:17%   left:33%   → (33, 30.2)
+       Nose  hotspot centre  → top:22.5% left:49.5% → (49.5, 40.0)
+       Left label text ends  → approx x=20, y=35
+       Right label text begins → approx x=64, y=30  -->
+  <svg class="lines" viewBox="0 0 100 177.7" xmlns="http://www.w3.org/2000/svg">
+    <!-- Gold: left label → eye -->
+    <path d="M 20 35 L 33 30" />
+    <!-- Blue: nose → right label -->
+    <path class="right" d="M 52 40 L 65 30" />
+  </svg>
+
+  <!-- 5 · Anatomy hotspots -->
+  <span class="spot eye" ><span class="core"></span></span>
+  <span class="spot nose b"><span class="core"></span></span>
+
+  <!-- 6 · Title shine overlay -->
+  <div class="title-shine"></div>
+
+  <!-- 7 · Subtitle underline -->
+  <span class="sub-underline"></span>
+
+  <!-- 8 · Clinical photo glow borders -->
+  <span class="ref r1"></span>
+  <span class="ref r2"></span>
+
+  <!-- 9 · Corner brackets — r1 (left photo) -->
+  <span class="bracket tl bk-r1-tl"></span>
+  <span class="bracket tr bk-r1-tr"></span>
+  <span class="bracket bl bk-r1-bl"></span>
+  <span class="bracket br bk-r1-br"></span>
+
+  <!-- 10 · Corner brackets — r2 (right photo) -->
+  <span class="bracket tl bk-r2-tl"></span>
+  <span class="bracket tr bk-r2-tr"></span>
+  <span class="bracket bl bk-r2-bl"></span>
+  <span class="bracket br bk-r2-br"></span>
+
+  <!-- 11 · Molecular network animated dots -->
+  <span class="mol-pulse mp1"></span>
+  <span class="mol-pulse mp2"></span>
+  <span class="mol-pulse mp3"></span>
+  <span class="mol-pulse mp4"></span>
+  <span class="mol-pulse mp5"></span>
+
+  <!-- 12 · Bottom gold underline -->
+  <span class="bottom-line"></span>
+
+  <!-- 13 · Invisible full-frame click target -->
+  <a class="click-cover"
+     href="https://necroker17.github.io/ENDERNUT/"
+     target="_blank" rel="noopener"
+     aria-label="Abrir landing del Diplomado"></a>
+
+  <!-- 14 · CTA gold pill button -->
+  <div class="cta-wrap">
+    <a class="cta-btn"
+       href="https://necroker17.github.io/ENDERNUT/"
+       target="_blank" rel="noopener">
+      <span class="label">Conoce el Diplomado</span>
+      <span class="chip" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 6 15 12 9 18"></polyline>
+        </svg>
+      </span>
+    </a>
+  </div>
+
+</div>
+</body>
+</html>
